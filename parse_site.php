@@ -73,7 +73,7 @@ function parse_site(array $sites, array $defaults = array()){
 			$results[$name] = $reshtml;
 		}
 		elseif ( !file_exists($params['xsl'])){
-			throw new Exception('Таблица стилей XSLT не существует. Указанный адрес:'.$params['xsl']);
+			throw new Exception('The XSLT stylesheet does not exists. Path:'.$params['xsl']);
 		}
 		else {
 			$domdoc->loadXML($reshtml);
