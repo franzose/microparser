@@ -76,7 +76,10 @@ function parse_site(array $sites, array $defaults = array()){
 			throw new Exception('The XSLT stylesheet does not exists. Path:'.$params['xsl']);
 		}
 		else {
-			$domdoc->loadHTML($reshtml);
+			//we need to recreate document
+			//and load XML to avoid non-latin mess
+			$domdoc = new DOMDocument();
+			$domdoc->loadXML($reshtml);
 			$xsltproc = new XSLTProcessor();
 			$xsl = new DOMDocument();
 			$xsl->load($params['xsl']);
