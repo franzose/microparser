@@ -90,9 +90,11 @@ function parse_site(array $sites, array $defaults = array()){
 			$xsl->load($params['xsl']);
 			$xsltproc->importStylesheet($xsl);
 
-			foreach($params['xslparams'] as $param_name => $param_opts){
-				$ns = isset($param_opts['namespace']) ? $param_opts['namespace'] : '';
-				$xsltproc->setParameter($ns, $param_name, $param_opts['value']);
+			if (isset($params['xslparams'])){
+				foreach($params['xslparams'] as $param_name => $param_opts){
+					$ns = isset($param_opts['namespace']) ? $param_opts['namespace'] : '';
+					$xsltproc->setParameter($ns, $param_name, $param_opts['value']);
+				}
 			}
 
 			$results[$name] = $xsltproc->transformToXml($domdoc);
