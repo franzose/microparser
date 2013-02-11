@@ -36,6 +36,11 @@
  *  — <b>url</b>: site's url;<br>
  *  — <b>xpath</b>: XPath expression (not required, used if it's necessary to get just a document fragment);<br>
  *  — <b>xsl</b>: <strong>absolute path</strong> to XSLT file (not required, used if it's necessary to make a transformation);<br>
+ *  — <b>xslparams</b>: params to be brought to XSLTProcessor (not required)
+ *       array('paramname' => array(
+ *                 'namespace' => 'somens' //not required
+ *                 'value' => 'somevalue'
+ *       ))
  *  — <b>transform</b>: if exists and set to 'false', then the transformation won't be done even if default options are present
  * 
  * @param array $defaults An array containing default values for <b>xpath</b> and <b>xsl</b> keys. Any other key is ignored.
@@ -84,6 +89,12 @@ function parse_site(array $sites, array $defaults = array()){
 			$xsl = new DOMDocument();
 			$xsl->load($params['xsl']);
 			$xsltproc->importStylesheet($xsl);
+
+			foreach($params['xslparams'] as $param_name => $param_opts){
+				$ns = isset($param_opts['namespace']) ? $param_opts['namespace'] : '';
+				$xsltproc->setParameter($ns, $param_name, $param_opts['value']);
+			}
+
 			$results[$name] = $xsltproc->transformToXml($domdoc);
 		}		
 	}
