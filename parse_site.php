@@ -72,7 +72,7 @@ function parse_site(array $sites, array $defaults = array()){
 		$domdoc->loadHTML($html);
 		$xpath = new DOMXPath($domdoc);
 		$fragment = (isset($params['xpath'])) ? $xpath->query($params['xpath']) : $html;
-		$reshtml = ($fragment instanceof DOMNodeList) ? $domdoc->saveHTML($fragment->item(0)) : $html;
+		$reshtml = ($fragment instanceof DOMNodeList) ? $domdoc->saveHTML() : $html;
 		
 		if ( !isset($params['xsl'])){
 			$results[$name] = $reshtml;
